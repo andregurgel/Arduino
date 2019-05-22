@@ -13,7 +13,7 @@ int umid = 0;
 void setup(){
 Serial.begin(9600);
 Display.begin(16,2);
-Display.begin(16,2);
+Display2.begin(16,2);
 }
 
 void loop(){
@@ -31,5 +31,3 @@ Display.print("Umidade: ");
 Display.print(umid);
 delay(1000);
 }
-
-
