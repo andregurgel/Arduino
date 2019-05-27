@@ -5,6 +5,8 @@
 //Define os pinos para o trigger e echo
 #define trigger 4
 #define echo 5
+#define led 3
+#define sensor 2
 
 Ultrasonic ultrassom(4,5);
 LiquidCrystal_I2C Display(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
@@ -13,9 +15,16 @@ byte a[8]= {B00110,B01001,B00110,B00000,B00000,B00000,B00000,B00000,}; // Array 
 
 int contador = 0; // Contar numero de pessoas
 long distancia;
+boolean valorS;
 
 void setup() {
   Serial.begin(9600);
+
+  // Led e sensor de movmento
+  pinMode(led, HIGH);
+  pinMode(sensor, INPUT);
+  
+  // Display
   Display.begin(16,2);
   Display.createChar(1, a); 
   Display.setCursor(2,0); //Coloca o cursor na coluna 7, linha 1
@@ -23,6 +32,9 @@ void setup() {
 }
 
 void loop() {
+  //Pega valor do sensor
+  valorS = digitalRead(sensor);
+  
   // Escreve no Display
   Display.setBacklight(HIGH);
   Display.setCursor(1,0);
@@ -33,13 +45,20 @@ void loop() {
   Display.print(contador);
   
   // Sensor Ultrassom
-  distancia = ultrassom.Ranging(CM);// ultrassom.Ranging(CM) retorna a distancia em centímetros(CM) ou polegadas(INC)
-  Serial.print(distancia); //imprime o valor da variável distancia
-  Serial.println("cm");
-  delay(750);
+  //distancia = ultrassom.Ranging(CM);// ultrassom.Ranging(CM) retorna a distancia em centímetros(CM) ou polegadas(INC)
+  //Serial.print(distancia); //imprime o valor da variável distancia
+  //Serial.println("cm");
+  //delay(750);
 
-  if(distancia < 14){
-      contador++;
-      delay(100);
+  //if(distancia < 14){
+  //    contador++;
+  //    delay(100);
+  //  }
+
+  if(valorS == HIGH){
+    digitalWrite(led, HIGH);
+    }
+    else{
+      digitalWrite(led, LOW);
     }
 }
